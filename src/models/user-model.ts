@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import {ObjectId} from "mongodb";
+import {UsersAcountDBType} from "../types/user-type";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<UsersAcountDBType>({
     _id: ObjectId,
     accountData: {
-        nameCompany: {type: String, unique: true, required: true},
-        firstName: {type: String,  required: true},
-        lastName: {type: String, required: true},
+        nameCompany: {type: String, unique: true, required: true, minlength: 3, maxlength: 100},
+        login: {type: String,  required: true, minlength: 3, maxlength: 50},
         email: {type: String, unique: true, required: true},
         passwordHash: {type: String, required: true},
         createdAt: {type: String, required: true}

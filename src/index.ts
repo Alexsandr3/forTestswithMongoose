@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import {config} from "dotenv";
+import {errorsMiddleware} from "./middlewares/errors-middleware";
+import {authRoute} from "./routes/auth-router";
 config()
 
 
@@ -19,9 +21,18 @@ app.use(jsonBodyMiddleware)
 app.use(cookieParser())
 app.set('trust proxy', true)
 
+app.get('/', (req: Request, res: Response) => {
+    res.status(200).json({
+        message: "Don't panic madam and mister, eats draniks"
+    })
+})
+app.use('/auth', authRoute)
+app.use(errorsMiddleware)
+
+
 const startApp = async () => {
     try {
-       // await mongoose.connect(mongoUri, {dbName: 'delivery-automations'});
+        await mongoose.connect(mongoUri, {dbName: 'delivery-automations'});
         console.log("Connected successfully to MONGOOSE server");
         app.listen(PORT, () => {
             console.log(`Example app listening on port: ${PORT}`)

@@ -1,15 +1,24 @@
-import {Request, Response, Router} from "express";
+import {Router} from "express";
+import {userController} from "../controllers/user-controller";
+import {
+    loginInputValidation,
+    registrationInputValidation,
+} from "../validators/auth-validator";
 
 
 export const authRoute = Router({})
 
 
-authRoute.post('/login',  async (req: Request, res: Response) => {})
-authRoute.post('/password-recovery',  async (req: Request, res: Response) => {})
-authRoute.post('/new-password',  async (req: Request, res: Response) => {})
-authRoute.post('/refresh-token',  async (req: Request, res: Response) => {})
-authRoute.post('/registration-confirmation',  async (req: Request, res: Response) => {})
-authRoute.post('/registration',  async (req: Request, res: Response) => {})
-authRoute.post('/registration-email-resending',  async (req: Request, res: Response) => {})
+authRoute.post('/password-recovery', userController.recovery)
+authRoute.post('/new-password', userController.newPassword)
+authRoute.post('/refresh-token', userController.refreshToken)
 
-authRoute.post('/logout',  async (req: Request, res: Response) => {})
+
+authRoute.post('/registration', registrationInputValidation, userController.registration)
+authRoute.post('/registration-confirmation', userController.confirmation)
+authRoute.post('/login', loginInputValidation, userController.login)
+
+
+authRoute.post('/registration-email-resending', userController.resending)
+authRoute.post('/logout', userController.logout)
+authRoute.get('/me', userController.me)
