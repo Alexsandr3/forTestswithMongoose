@@ -1,6 +1,6 @@
-export type BodyParams_UserInputModel ={
+export type BodyParams_CompanyInputModel ={
     /**
-     * nameCompany
+     * name company
      */
     nameCompany: string
     /**
@@ -9,11 +9,11 @@ export type BodyParams_UserInputModel ={
     login: string
 
     /**
-     * email: email User
+     * email: email company
      */
     email: string
     /**
-     * password: password User
+     * password: password company
      */
     password: string
 }

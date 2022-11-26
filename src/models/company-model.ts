@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import {ObjectId} from "mongodb";
-import {UsersAcountDBType} from "../types/user-type";
+import {CompanyAcountDBType} from "../types/company-type";
 
-const userSchema = new mongoose.Schema<UsersAcountDBType>({
+const companySchema = new mongoose.Schema<CompanyAcountDBType>({
     _id: ObjectId,
     accountData: {
-        nameCompany: {type: String, unique: true, required: true, minlength: 3, maxlength: 100},
-        login: {type: String,  required: true, minlength: 3, maxlength: 50},
+        nameCompany: {type: String, unique: true, required: true, minlength: 1, maxlength: 100},
+        login: {type: String, unique: true, required: true, minlength: 3, maxlength: 50},
         email: {type: String, unique: true, required: true},
         passwordHash: {type: String, required: true},
         createdAt: {type: String, required: true}
@@ -22,4 +22,4 @@ const userSchema = new mongoose.Schema<UsersAcountDBType>({
         isConfirmation: {type: Boolean, default: false}
     }
 });
-export const UserModelClass = mongoose.model('users', userSchema);
+export const CompanyModelClass = mongoose.model('companies', companySchema);

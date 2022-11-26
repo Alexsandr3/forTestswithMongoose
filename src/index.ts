@@ -21,7 +21,7 @@ app.use(jsonBodyMiddleware)
 app.use(cookieParser())
 app.get('/', (req: Request, res: Response) => {
     res.status(200).json({
-        message: "Don't panic madam and mister, eats draniks"
+        message: "Don't panic madam and mister, eats draniks. Build your own dreams, or someone else will hire you to build theirs."
     })
 })
 app.use('/auth', authRoute)

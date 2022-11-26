@@ -3,7 +3,6 @@ export class ApiErrors extends Error {
     errors;
 
     constructor(status: number, message: string, errors: any[] = []) {
-        console.log("000_12 - message", {status},{message}, {errors})
         super(message);
         this.status = status;
         this.errors = errors;
@@ -15,7 +14,6 @@ export class ApiErrors extends Error {
     }
 
     static UNAUTHORIZED_401(message: string) {
-        console.log("000_11 - message", message)
         return new ApiErrors(401, message)
     }
 

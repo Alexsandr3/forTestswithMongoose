@@ -3,7 +3,6 @@ import {ApiErrors} from "../exceptions/api-errors";
 
 
 export const errorsMiddleware = (err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.log("777------err----", err)
     if (err instanceof ApiErrors){
         res.status(err.status).json({message: err.message, errors: err.errors})
     }

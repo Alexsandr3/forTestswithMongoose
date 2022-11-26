@@ -1,20 +1,20 @@
 import {DeviceDBType} from "../types/device-type";
 import {DeviceModelClass} from "../models/device-model";
 import {ObjectId} from "mongodb";
-import {UserDto} from "../dtos/user-dto";
+import {CompanyDto} from "../dtos/company-dto";
 import {PayloadDto} from "../dtos/payload-dto";
 
 class DeviceRepositories {
-    async createDevice(userDto: UserDto, ipAddress: string, deviceName: string, payloadDto: PayloadDto): Promise<DeviceDBType> {
+    async createDevice(companyDto: CompanyDto, ipAddress: string, deviceName: string, payloadDto: PayloadDto): Promise<DeviceDBType> {
 
         const newDevice = new DeviceDBType(
             new ObjectId(),
-            userDto.userId.toString(),
+            companyDto.companyId.toString(),
             ipAddress,
             deviceName,
             payloadDto.iat,
             payloadDto.exp,
-            userDto.deviceId)
+            companyDto.deviceId)
         await DeviceModelClass.create(newDevice)
         return newDevice
     }
@@ -23,7 +23,7 @@ class DeviceRepositories {
         return  DeviceModelClass
             .findOne({
                 $and: [
-                    {userId: payloadDto.userId},
+                    {companyId: payloadDto.companyId},
                     {deviceId: payloadDto.deviceId},
                     {lastActiveDate: payloadDto.iat},
                 ]
@@ -33,7 +33,7 @@ class DeviceRepositories {
     async updateDateDevice(payload: PayloadDto, oldIat: string): Promise<boolean> {
         const result = await DeviceModelClass.updateOne({
             $and: [
-                {userId: {$eq: payload.userId}},
+                {companyId: {$eq: payload.companyId}},
                 {deviceId: {$eq: payload.deviceId}},
                 {lastActiveDate: {$eq: oldIat}},
             ]

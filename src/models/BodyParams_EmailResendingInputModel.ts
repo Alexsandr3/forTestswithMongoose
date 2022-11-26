@@ -1,6 +1,6 @@
 export type BodyParams_RegistrationEmailResendingInputModel ={
     /**
-     * Email of already registered but not confirmed user
+     * Email of already registered but not confirmed company
      */
     email: string
 }

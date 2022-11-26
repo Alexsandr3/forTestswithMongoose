@@ -1,6 +1,6 @@
 import {ObjectId} from "mongodb";
 
-export class UsersAcountDBType {
+export class CompanyAcountDBType {
     constructor(public _id: ObjectId,
                 public accountData: AccountDataType,
                 public emailConfirmation: EmailConfirmationType,

@@ -3,7 +3,7 @@ import {ObjectId} from "mongodb";
 
 const deviceSchema = new mongoose.Schema({
     _id: ObjectId,
-    userId: {type: String, required: true},
+    companyId: {type: String, required: true},
     ip: {type: String, required: true},
     titleHttp: {type: String, required: true},
     lastActiveDate: {type: String, required: true},

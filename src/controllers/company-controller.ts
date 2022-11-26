@@ -1,6 +1,6 @@
 import {Request, Response, NextFunction} from "express";
-import {userService} from "../service/user-service";
-import {BodyParams_UserInputModel} from "../models/BodyParams_UserInputModel";
+import {companyService} from "../service/company-service";
+import {BodyParams_CompanyInputModel} from "../models/BodyParams_CompanyInputModel";
 import {validationResult} from "express-validator";
 import {ApiErrors} from "../exceptions/api-errors";
 import {BodyParams_RegistrationConfirmationCodeInputModel} from "../models/BodyParams_ConfirrmationCodeInputModel";
@@ -8,21 +8,22 @@ import {BodyParams_LoginInputModel} from "../models/BodyParams_loginInputModel";
 import {jwtService} from "../service/jwt-service";
 import {deviceRepositories} from "../repositories/device-repositories";
 import {PayloadDto} from "../dtos/payload-dto";
-import {userQueryRepositories} from "../repositories/user-query-repositories";
+import {companyQueryRepositories} from "../repositories/company-query-repositories";
 import {BodyParams_RegistrationEmailResendingInputModel} from "../models/BodyParams_EmailResendingInputModel";
 import {BodyParams_newPasswordInputModel} from "../models/BodyParams_newPasswordInputModel";
 
 
-class UserController {
+class CompanyController {
     async registration(req: Request, res: Response, next: NextFunction) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return next(ApiErrors.BAD_REQUEST_400(`Incorrect input data`, errors.array()))
             }
-            const {nameCompany, login, email, password}: BodyParams_UserInputModel = req.body
-            await userService.registration(nameCompany, login, email, password)
+            const {nameCompany, login, email, password}: BodyParams_CompanyInputModel = req.body
+            await companyService.registration(nameCompany, login, email, password)
             return res.sendStatus(204)
+
         } catch (errors) {
             next(errors)
         }
@@ -31,13 +32,12 @@ class UserController {
     async confirmation(req: Request, res: Response, next: NextFunction) {
         try {
             const {code}: BodyParams_RegistrationConfirmationCodeInputModel = req.body
-            await userService.confirmation(code)
-            // @ts-ignore
-            return res.redirect(process.env.CLIENT_URL) ///???? check
+            await companyService.confirmation(code)
+            return res.sendStatus(204)
+            //return res.redirect(process.env.CLIENT_URL) ///???? check
         } catch (errors) {
             next(errors)
         }
-
     }
 
     async login(req: Request, res: Response, next: NextFunction) {
@@ -49,7 +49,7 @@ class UserController {
             const ipAddress = req.ip
             const deviceName = req.headers["user-agent"]
             const {login, password}: BodyParams_LoginInputModel = req.body
-            const token = await userService.login(login, password, ipAddress, deviceName!)
+            const token = await companyService.login(login, password, ipAddress, deviceName!)
             res.cookie('refreshToken', token.refreshToken, {httpOnly: true, secure: true});
             return res.send({'accessToken': token.accessToken})
         } catch (errors) {
@@ -60,19 +60,13 @@ class UserController {
     async refreshToken(req: Request, res: Response, next: NextFunction) {
         try {
             const {refreshToken} = req.cookies
-            console.log("000 -req.cookies", req.cookies)
             if (!refreshToken) throw ApiErrors.UNAUTHORIZED_401(`Did not come refreshToken`)
             const payload = await jwtService.verifyToken(refreshToken)
             const payloadDto = new PayloadDto(payload)
-            console.log("001 -payload", payload)
-            console.log("002 -payloadDto", payloadDto)
-            console.log("newDate", new Date().toISOString())
             if (payloadDto.exp < new Date().toISOString()) throw ApiErrors.UNAUTHORIZED_401(`Expired date`)
             const deviceUser = await deviceRepositories.findDeviceForValid(payloadDto)
-            console.log("004 -deviceUser", deviceUser)
             if (!deviceUser) throw ApiErrors.UNAUTHORIZED_401(`Incorrect userId or deviceId or issuedAt`)
-            const token = await userService.refreshToken(payloadDto)
-            console.log("005 -token", token)
+            const token = await companyService.refreshToken(payloadDto)
             res.cookie('refreshToken', token.refreshToken, {httpOnly: true, secure: true});
             return res.send({'accessToken': token.accessToken})
         } catch (errors) {
@@ -83,7 +77,7 @@ class UserController {
     async resending(req: Request, res: Response, next: NextFunction) {
         try {
             const {email}: BodyParams_RegistrationEmailResendingInputModel = req.body
-            await userService.resending(email)
+            await companyService.resending(email)
             return res.sendStatus(204)
         } catch (errors) {
             next(errors)
@@ -94,7 +88,7 @@ class UserController {
     async recovery(req: Request, res: Response, next: NextFunction) {
         try {
             const {email}: BodyParams_RegistrationEmailResendingInputModel = req.body
-            await userService.recovery(email)
+            await companyService.recovery(email)
             return res.sendStatus(204)
         } catch (errors) {
             next(errors)
@@ -105,7 +99,7 @@ class UserController {
     async newPassword(req: Request, res: Response, next: NextFunction) {
         try {
             const {newPassword, recoveryCode}: BodyParams_newPasswordInputModel = req.body
-            await userService.newPassword(newPassword, recoveryCode)
+            await companyService.newPassword(newPassword, recoveryCode)
             return res.sendStatus(204)
         } catch (errors) {
             next(errors)
@@ -122,10 +116,10 @@ class UserController {
 
     }
 
-    async users(req: Request, res: Response, next: NextFunction) {
+    async companies(req: Request, res: Response, next: NextFunction) {
         try {
-            const users = await userQueryRepositories.getUsers()
-            return res.json({users})
+            const companies = await companyQueryRepositories.getCompanies()
+            return res.json({companies})
         } catch (errors) {
             next(errors)
         }
@@ -133,4 +127,4 @@ class UserController {
 
 }
 
-export const userController = new UserController()
+export const companyController = new CompanyController()
