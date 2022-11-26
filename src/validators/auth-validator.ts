@@ -14,13 +14,21 @@ const loginValidation =
         .notEmpty()
         .trim()
         .isLength({min: 3, max: 50})
-const emailValidation =
+export const emailValidation =
     body('email',
         'Should be valid email')
         .isString()
         .notEmpty()
         .trim()
         .isEmail()
+
+export const newPasswordValidation =
+    body('newPassword',
+        'newPassword must be a string, must not be empty, length must be between 6 and 20 characters')
+        .isString()
+        .notEmpty()
+        .trim()
+        .isLength({min: 6, max: 20})
 
 export const registrationInputValidation = [
     nameCompanyValidation,
@@ -34,6 +42,7 @@ const passwordValidation =
         .isString()
         .notEmpty()
         .trim()
+        .isLength({min: 6, max: 20})
 
 export const loginInputValidation = [
     loginValidation,

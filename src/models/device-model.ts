@@ -1,9 +1,9 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose from "mongoose";
 import {ObjectId} from "mongodb";
 
 const deviceSchema = new mongoose.Schema({
     _id: ObjectId,
-    userId: {type: Schema.Types.ObjectId, ref: "users"},
+    userId: {type: String, required: true},
     ip: {type: String, required: true},
     titleHttp: {type: String, required: true},
     lastActiveDate: {type: String, required: true},

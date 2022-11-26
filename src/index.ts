@@ -19,14 +19,13 @@ const jsonBodyMiddleware = bodyParser.json()
 app.use(cors())
 app.use(jsonBodyMiddleware)
 app.use(cookieParser())
-app.set('trust proxy', true)
-
 app.get('/', (req: Request, res: Response) => {
     res.status(200).json({
         message: "Don't panic madam and mister, eats draniks"
     })
 })
 app.use('/auth', authRoute)
+app.set('trust proxy', true)
 app.use(errorsMiddleware)
 
 

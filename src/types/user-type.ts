@@ -22,12 +22,24 @@ export class EmailRecoveryType {
     }
 }
 
-export class AccountDataType  {
+export class AccountDataType {
     constructor(
         public nameCompany: string,
         public login: string,
         public email: string,
         public passwordHash: string,
         public createdAt: string) {
+    }
+}
+
+export class ShortEmailConfirmationType {
+    constructor(public confirmationCode: string,
+                public expirationDate: Date) {
+    }
+}
+
+export class ShortEmailRecoveryType {
+    constructor(public recoveryCode: string,
+                public expirationDate: Date) {
     }
 }

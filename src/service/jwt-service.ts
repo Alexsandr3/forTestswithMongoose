@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken'
-import {settings} from "../../settings";
+import {settings} from "../settings";
 import {TokensType} from "../types/token-type";
 import {UserDto} from "../dtos/user-dto";
+import {PayloadDto} from "../dtos/payload-dto";
 
 class JwtService {
-    async generateTokens(userDto: UserDto): Promise<TokensType> {
+    async generateTokens(userDto: UserDto | PayloadDto): Promise<TokensType> {
         const accessToken = jwt.sign({userId: userDto.userId}, settings.ACCESS_TOKEN_SECRET, {expiresIn: '30m'})
-        const refreshToken = jwt.sign({userId: userDto.deviceId, deviceId: userDto.deviceId}, settings.REFRESH_TOKEN_SECRET, {expiresIn: '30d'})
+        const refreshToken = jwt.sign({userId: userDto.userId, deviceId: userDto.deviceId}, settings.REFRESH_TOKEN_SECRET, {expiresIn: '7d'})
         return new TokensType(accessToken, refreshToken)
     }
 
