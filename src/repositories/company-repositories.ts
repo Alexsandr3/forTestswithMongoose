@@ -4,7 +4,7 @@ import {randomUUID} from "crypto";
 import add from "date-fns/add";
 import {CompanyModelClass} from "../models/company-model";
 
-class CompanyRepositories {
+export class CompanyRepositories {
     async registration(nameCompany: string, login: string, email: string, passwordHash: string): Promise<CompanyAcountDBType> {
         const company = new CompanyAcountDBType(
             new ObjectId(),
@@ -85,4 +85,3 @@ class CompanyRepositories {
 
 }
 
-export const companyRepositories = new CompanyRepositories()

@@ -4,7 +4,7 @@ import {ObjectId} from "mongodb";
 import {CompanyDto} from "../dtos/company-dto";
 import {PayloadDto} from "../dtos/payload-dto";
 
-class DeviceRepositories {
+export class DeviceRepositories {
     async createDevice(companyDto: CompanyDto, ipAddress: string, deviceName: string, payloadDto: PayloadDto): Promise<DeviceDBType> {
 
         const newDevice = new DeviceDBType(
@@ -48,4 +48,3 @@ class DeviceRepositories {
 
 }
 
-export const deviceRepositories = new DeviceRepositories()

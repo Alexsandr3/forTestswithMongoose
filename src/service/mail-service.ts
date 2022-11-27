@@ -1,6 +1,8 @@
-import {emailAdapter} from "../adapter/email-adapter";
+import {EmailAdapter} from "../adapter/email-adapter";
 
-class EmailService {
+export class EmailService {
+    constructor(protected emailAdapter: EmailAdapter) {
+    }
     async sendPasswordRecoveryMessage(email: string, confirmationCode: string) {
         const subject = "Password recovery"
         const link = `${process.env.CLIENT_URL}/password-recovery?recoveryCode=${confirmationCode}`
@@ -9,7 +11,7 @@ class EmailService {
        <p>To finish password recovery please follow the link below:
           <a href='${link}'>"${link}"</a>
       </p>`
-        return await emailAdapter.sendEmail(email, subject, message)
+        return await this.emailAdapter.sendEmail(email, subject, message)
     }
     async sendEmailConfirmation(email: string, confirmationCode: string) {
         const subject = "Finish registration"
@@ -19,9 +21,9 @@ class EmailService {
        <p>To finish registration please follow the link below:
           <a href='${link}'>"${link}"</a>
       </p>`
-        return await emailAdapter.sendEmail(email, subject, message)
+        return await this.emailAdapter.sendEmail(email, subject, message)
     }
 }
 
 
-export const emailService = new  EmailService()
+

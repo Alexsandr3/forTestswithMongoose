@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {companyController} from "../controllers/company-controller";
+import {companyController} from "../composition-root";
 import {
     emailValidation,
     loginInputValidation, newPasswordValidation,

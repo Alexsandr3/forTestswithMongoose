@@ -4,7 +4,7 @@ import {TokensType} from "../types/token-type";
 import {CompanyDto} from "../dtos/company-dto";
 import {PayloadDto} from "../dtos/payload-dto";
 
-class JwtService {
+export class JwtService {
     async generateTokens(companyDto: CompanyDto | PayloadDto): Promise<TokensType> {
         const accessToken = jwt.sign({companyId: companyDto.companyId}, settings.ACCESS_TOKEN_SECRET, {expiresIn: '1m'})
         const refreshToken = jwt.sign({companyId: companyDto.companyId, deviceId: companyDto.deviceId}, settings.REFRESH_TOKEN_SECRET, {expiresIn: '7d'})
@@ -21,5 +21,5 @@ class JwtService {
     }
 }
 
-export const jwtService = new JwtService()
+
 
