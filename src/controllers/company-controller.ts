@@ -11,6 +11,7 @@ import {PayloadDto} from "../dtos/payload-dto";
 import {CompanyQueryRepositories} from "../repositories/company-query-repositories";
 import {BodyParams_RegistrationEmailResendingInputModel} from "../models/BodyParams_EmailResendingInputModel";
 import {BodyParams_newPasswordInputModel} from "../models/BodyParams_newPasswordInputModel";
+import {CompanyAcountDBType} from "../types/company-type";
 
 
 export class CompanyController {
@@ -122,11 +123,12 @@ export class CompanyController {
 
     }
 
-    async companies(req: Request, res: Response, next: NextFunction) {
+    async companies(req: Request, res: Response<CompanyAcountDBType[]>, next: NextFunction){
         try {
             const companies = await this.companyQueryRepositories.getCompanies()
-            return res.json({companies})
+            return res.send(companies)
         } catch (errors) {
+            console.log(errors)
             next(errors)
         }
     }
