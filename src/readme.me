@@ -1,0 +1,66 @@
+буду корректировать
+
+
+🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠
+//GET————————————————————————1
+………………………………./admin/companies
+//Responses
+//res.send(
+[
+    {
+        "companyName": "string",
+        "email": "string",
+        "companyId": "string",
+        "createdAt": "string",
+        "statusActivations": "string",
+        "deposit": number
+    }
+]).    //200 code
+//res.sendStatus(401) //unauthorized
+
+🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠
+//GET---------------------------------------2
+………………………………./admin/companies/:companyId
+
+//Request params
+
+type UriParams_companyIdVodel = {
+    companyId: string
+}
+
+//Responses (+info юридические)
+ //res.send(
+ {
+        "companyName": "string",
+        "email": "string",
+        "companyId": "string",
+        "createdAt": "string",
+        "statusActivations": "string",
+        "deposit": number
+    }
+ )   //200 code
+
+//res.sendStatus(401) //unauthorized
+//res.sendStatus(404) //Not found
+
+
+
+🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠
+//PUT---------------------------------------2
+………………………………./admin/companies/:companyId
+
+//Request params
+type UriParams_companyIdVodel = {
+    companyId: string
+}
+//Request body
+ type BodyParams_depositWalletInputModel = {
+    deposit: number
+}
+
+//Responses
+res.sendStatus(204)
+//res.sendStatus(400) //Incorrect input data
+//res.sendStatus(401) //unauthorized
+//res.sendStatus(404) //Not found || Incorrect id,  please enter a valid one
+

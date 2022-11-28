@@ -1,12 +1,13 @@
 import  {body} from "express-validator";
 
-const nameCompanyValidation =
-    body('nameCompany',
+const companyNameValidation =
+    body('companyName',
         `Name company must be a string, must not be empty, length should be 3..100 symbols`)
         .isString()
         .notEmpty()
         .trim()
         .isLength({min: 1, max: 100})
+
 const loginValidation =
     body('login',
         `Login name must be a string, must not be empty length should be 3..50 symbols`)
@@ -39,7 +40,7 @@ export const newPasswordValidation =
         .isLength({min: 6, max: 30})
 
 export const registrationInputValidation = [
-    nameCompanyValidation,
+    companyNameValidation,
     loginValidation,
     emailValidation,
     passwordValidation

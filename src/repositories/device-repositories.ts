@@ -1,5 +1,5 @@
 import {DeviceDBType} from "../types/device-type";
-import {DeviceModelClass} from "../models/device-model";
+import {DeviceModelClass} from "../models/schemas/device-schema";
 import {ObjectId} from "mongodb";
 import {CompanyDto} from "../dtos/company-dto";
 import {PayloadDto} from "../dtos/payload-dto";

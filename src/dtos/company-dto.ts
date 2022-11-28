@@ -7,5 +7,6 @@ export class CompanyDto {
     constructor(model: CompanyAcountDBType) {
         this.companyId = model._id;
     }
+
 }
 

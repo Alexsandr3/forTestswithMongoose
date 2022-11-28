@@ -1,4 +1,4 @@
-import {CompanyModelClass} from "../models/company-model";
+import {CompanyModelClass} from "../models/schemas/company-schema";
 import {CompanyAcountDBType} from "../types/company-type";
 
 

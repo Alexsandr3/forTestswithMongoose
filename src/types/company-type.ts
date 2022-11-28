@@ -4,21 +4,24 @@ export class CompanyAcountDBType {
     constructor(public _id: ObjectId,
                 public accountData: AccountDataType,
                 public emailConfirmation: EmailConfirmationType,
-                public emailRecovery: EmailRecoveryType) {
+                public emailRecovery: EmailRecoveryType,
+                public wallet: WalletCompanyDBType) {
     }
 }
 
 export class EmailConfirmationType {
-    constructor(public confirmationCode: string,
-                public expirationDate: Date,
-                public isConfirmation: boolean) {
+    constructor(
+        public confirmationCode: string,
+        public expirationDate: Date,
+        public isConfirmation: boolean) {
     }
 }
 
 export class EmailRecoveryType {
-    constructor(public recoveryCode: string,
-                public expirationDate: Date,
-                public isConfirmation: boolean) {
+    constructor(
+        public recoveryCode: string,
+        public expirationDate: Date,
+        public isConfirmation: boolean) {
     }
 }
 
@@ -33,13 +36,28 @@ export class AccountDataType {
 }
 
 export class ShortEmailConfirmationType {
-    constructor(public confirmationCode: string,
-                public expirationDate: Date) {
+    constructor(
+        public confirmationCode: string,
+        public expirationDate: Date) {
     }
 }
 
 export class ShortEmailRecoveryType {
-    constructor(public recoveryCode: string,
-                public expirationDate: Date) {
+    constructor(
+        public recoveryCode: string,
+        public expirationDate: Date) {
     }
+}
+
+export class WalletCompanyDBType {
+    constructor(
+        public deposit: number,
+        public statusActivations: string
+    ) {
+    }
+}
+
+export enum StatusActivations {
+    active = "active",
+    deactivated = "deactivated"
 }

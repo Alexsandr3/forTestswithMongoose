@@ -24,7 +24,8 @@ export class CompanyService {
 
     async registration(nameCompany: string, login: string, email: string, password: string): Promise<CompanyAcountDBType | null> {
         const isValidCompany = await this.companyRepositories.findCompany(login)
-        if (!isValidCompany) throw ApiErrors.BAD_REQUEST_400(`${login} or ${email} already in use!`)
+        //if (!isValidCompany) throw ApiErrors.BAD_REQUEST_400(`${login} or ${email} already in use!`)
+        if (!isValidCompany) throw ApiErrors.BAD_REQUEST_400(`Company with this email or login is already registered `)
         const passwordHash = await bcrypt.hash(password, 10)
         const company = await this.companyRepositories.registration(nameCompany, login, email, passwordHash)
         const sendEmail = await this.emailService.sendEmailConfirmation(company.accountData.email, company.emailConfirmation.confirmationCode)

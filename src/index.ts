@@ -6,6 +6,7 @@ import cors from "cors";
 import {config} from "dotenv";
 import {errorsMiddleware} from "./middlewares/errors-middleware";
 import {authRoute} from "./routes/auth-router";
+import {adminRoute} from "./routes/admin-router";
 config()
 
 
@@ -25,6 +26,7 @@ app.get('/', (req: Request, res: Response) => {
     })
 })
 app.use('/auth', authRoute)
+app.use('/admin', adminRoute)
 app.set('trust proxy', true)
 app.use(errorsMiddleware)
 

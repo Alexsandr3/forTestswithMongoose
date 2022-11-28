@@ -3,7 +3,7 @@ import {
     emailValidation,
     loginInputValidation, newPasswordValidation,
     registrationInputValidation,
-} from "../validators/auth-validator";
+} from "../middlewares/validators/auth-validator";
 import {companyController} from "../composition-root";
 
 

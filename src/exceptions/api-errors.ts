@@ -17,6 +17,10 @@ export class ApiErrors extends Error {
         return new ApiErrors(401, message)
     }
 
+    static NOT_FOUND_404(message: string) {
+        return new ApiErrors(404, message)
+    }
+
     static INTERNET_SERVER_ERROR(message: string) {
         return new ApiErrors(500, message)
     }

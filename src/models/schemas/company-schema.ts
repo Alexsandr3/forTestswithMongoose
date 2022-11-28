@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import {ObjectId} from "mongodb";
-import {CompanyAcountDBType} from "../types/company-type";
+import {CompanyAcountDBType, StatusActivations} from "../../types/company-type";
 
 const companySchema = new mongoose.Schema<CompanyAcountDBType>({
     _id: ObjectId,
     accountData: {
-        nameCompany: {type: String, unique: true, required: true, minlength: 1, maxlength: 100},
+        companyName: {type: String, unique: true, required: true, minlength: 1, maxlength: 100},
         login: {type: String, unique: true, required: true, minlength: 3, maxlength: 50},
         email: {type: String, unique: true, required: true},
         passwordHash: {type: String, required: true},
@@ -20,6 +20,10 @@ const companySchema = new mongoose.Schema<CompanyAcountDBType>({
         recoveryCode: {type: String, required: true},
         expirationDate: Date,
         isConfirmation: {type: Boolean, default: false}
+    },
+    wallet: {
+        deposit: {type: Number, default: 0},
+        statusActivations: {type: String, default: 'deactivated', enum: StatusActivations}
     }
 });
 export const CompanyModelClass = mongoose.model('companies', companySchema);
