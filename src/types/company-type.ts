@@ -24,7 +24,7 @@ export class EmailRecoveryType {
 
 export class AccountDataType {
     constructor(
-        public nameCompany: string,
+        public companyName: string,
         public login: string,
         public email: string,
         public passwordHash: string,

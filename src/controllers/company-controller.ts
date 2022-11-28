@@ -27,8 +27,8 @@ export class CompanyController {
             if (!errors.isEmpty()) {
                 return next(ApiErrors.BAD_REQUEST_400(`Incorrect input data`, errors.array()))
             }
-            const {nameCompany, login, email, password}: BodyParams_CompanyInputModel = req.body
-            await this.companyService.registration(nameCompany, login, email, password)
+            const {companyName, login, email, password}: BodyParams_CompanyInputModel = req.body
+            await this.companyService.registration(companyName, login, email, password)
             return res.sendStatus(204)
 
         } catch (errors) {

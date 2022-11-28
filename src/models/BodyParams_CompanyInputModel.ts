@@ -2,7 +2,7 @@ export type BodyParams_CompanyInputModel ={
     /**
      * name company
      */
-    nameCompany: string
+    companyName: string
     /**
      * login:
      */
