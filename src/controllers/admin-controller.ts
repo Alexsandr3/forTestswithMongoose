@@ -30,6 +30,7 @@ export class AdminController {
             next(errors)
         }
     }
+
     async deleteCompany(req: Request, res: Response, next: NextFunction) {
         try {
             const {companyId} = req.params
@@ -54,7 +55,5 @@ export class AdminController {
             next(errors)
         }
     }
-
-
 }
 

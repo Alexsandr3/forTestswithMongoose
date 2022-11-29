@@ -20,5 +20,4 @@ authRoute.post('/new-password', newPasswordValidation, companyController.newPass
 
 
 authRoute.post('/logout', companyController.logout.bind(companyController))
-
 authRoute.get('/companies', companyController.companies.bind(companyController))
