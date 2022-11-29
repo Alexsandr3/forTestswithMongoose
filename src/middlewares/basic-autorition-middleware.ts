@@ -4,7 +4,7 @@ const credentials = {
     login: 'admin',
     password: 'qwerty'
 }
-export const basicAutoritionMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const basicAuthorizationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const authHeander = req.headers.authorization
     const encoderAut = Buffer.from(`${credentials.login}:${credentials.password}`).toString('base64')
     const validHeander = `Basic ${encoderAut}`
