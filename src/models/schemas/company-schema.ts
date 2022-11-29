@@ -5,7 +5,7 @@ import {CompanyAcountDBType, StatusActivations} from "../../types/company-type";
 const companySchema = new mongoose.Schema<CompanyAcountDBType>({
     _id: ObjectId,
     accountData: {
-        companyName: {type: String, unique: true, required: true, minlength: 1, maxlength: 100},
+        companyName: {type: String, required: true, minlength: 1, maxlength: 100},
         login: {type: String, unique: true, required: true, minlength: 3, maxlength: 50},
         email: {type: String, unique: true, required: true},
         passwordHash: {type: String, required: true},

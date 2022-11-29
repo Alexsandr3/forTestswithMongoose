@@ -1,6 +1,5 @@
 буду корректировать
 
-
 🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠
 //GET————————————————————————1
 ………………………………./admin/companies
@@ -46,7 +45,7 @@ type UriParams_companyIdVodel = {
 
 
 🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠
-//PUT---------------------------------------2
+//PUT---------------------------------------3
 ………………………………./admin/companies/:companyId
 
 //Request params
@@ -63,4 +62,32 @@ res.sendStatus(204)
 //res.sendStatus(400) //Incorrect input data
 //res.sendStatus(401) //unauthorized
 //res.sendStatus(404) //Not found || Incorrect id,  please enter a valid one
+
+
+
+🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠
+//DELETE---------------------------------------4
+………………………………./admin/companies/:companyId
+
+//Request params
+type UriParams_companyIdVodel = {
+    companyId: string
+}
+
+//Responses
+res.sendStatus(204)
+//res.sendStatus(401) //unauthorized
+//res.sendStatus(404) //Not found || Incorrect id,  please enter a valid one
+
+
+
+🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠🛠
+//DELETE---------------------------------------4
+………………………………./auth/logout
+
+//Request cookies
+
+//Responses
+res.sendStatus(204)
+//res.sendStatus(401) //unauthorized
 

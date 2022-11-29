@@ -24,8 +24,17 @@ export class AdminController {
     async findCompany(req: Request, res: Response, next: NextFunction) {
         try {
             const {companyId} = req.params
-            const company = await this.adminService.findComapny(companyId)
+            const company = await this.adminService.findCompany(companyId)
             return res.status(200).send(company)
+        } catch (errors) {
+            next(errors)
+        }
+    }
+    async deleteCompany(req: Request, res: Response, next: NextFunction) {
+        try {
+            const {companyId} = req.params
+            await this.adminService.deleteCompany(companyId)
+            return res.sendStatus(204)
         } catch (errors) {
             next(errors)
         }

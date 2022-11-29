@@ -7,7 +7,6 @@ import {BodyParams_RegistrationConfirmationCodeInputModel} from "../models/BodyP
 import {BodyParams_LoginInputModel} from "../models/BodyParams_loginInputModel";
 import {JwtService} from "../service/jwt-service";
 import {DeviceRepositories} from "../repositories/device-repositories";
-import {PayloadDto} from "../dtos/payload-dto";
 import {CompanyQueryRepositories} from "../repositories/company-query-repositories";
 import {BodyParams_RegistrationEmailResendingInputModel} from "../models/BodyParams_EmailResendingInputModel";
 import {BodyParams_newPasswordInputModel} from "../models/BodyParams_newPasswordInputModel";
@@ -30,7 +29,6 @@ export class CompanyController {
             const {companyName, login, email, password}: BodyParams_CompanyInputModel = req.body
             await this.companyService.registration(companyName, login, email, password)
             return res.sendStatus(204)
-
         } catch (errors) {
             next(errors)
         }
@@ -67,13 +65,7 @@ export class CompanyController {
     async refreshToken(req: Request, res: Response, next: NextFunction) {
         try {
             const {refreshToken} = req.cookies
-            if (!refreshToken) throw ApiErrors.UNAUTHORIZED_401(`Did not come refreshToken`)
-            const payload = await this.jwtService.verifyToken(refreshToken)
-            const payloadDto = new PayloadDto(payload)
-            if (payloadDto.exp < new Date().toISOString()) throw ApiErrors.UNAUTHORIZED_401(`Expired date`)
-            const deviceUser = await this.deviceRepositories.findDeviceForValid(payloadDto)
-            if (!deviceUser) throw ApiErrors.UNAUTHORIZED_401(`Incorrect userId or deviceId or issuedAt`)
-            const token = await this.companyService.refreshToken(payloadDto)
+            const token = await this.companyService.refreshToken(refreshToken)
             res.cookie('refreshToken', token.refreshToken, {httpOnly: true, secure: true});
             return res.send({'accessToken': token.accessToken})
         } catch (errors) {
@@ -116,7 +108,9 @@ export class CompanyController {
 
     async logout(req: Request, res: Response, next: NextFunction) {
         try {
-
+            const {refreshToken} = req.cookies
+            await this.companyService.logout(refreshToken)
+            return res.sendStatus(204)
         } catch (errors) {
             next(errors)
         }

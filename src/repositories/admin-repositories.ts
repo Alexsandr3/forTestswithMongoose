@@ -1,12 +1,17 @@
 import {CompanyModelClass} from "../models/schemas/company-schema";
-import {CompanyAcountDBType, StatusActivations} from "../types/company-type";
+import {StatusActivations} from "../types/company-type";
+import {CompanyViewDtoModel} from "../models/companyViewModel";
 
 
 export class AdminRepositories {
-    async findComapny(companyId: string): Promise<CompanyAcountDBType | null>{
+    async findComapny(companyId: string): Promise<CompanyViewDtoModel | null>{
         const company = await CompanyModelClass.findOne({_id: new Object(companyId)})
         if (!company) return null
-        return company
+        return new CompanyViewDtoModel(company)
+    }
+    async deleteComapny(companyId: string): Promise<boolean>{
+        const result = await CompanyModelClass.deleteOne({_id: new Object(companyId)})
+        return result.deletedCount === 1
     }
     async updateDeposit(deposit: number, companyId: string): Promise<boolean>{
         const company = await CompanyModelClass.findOne({_id: new Object(companyId)})

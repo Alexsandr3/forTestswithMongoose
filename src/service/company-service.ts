@@ -20,14 +20,14 @@ export class CompanyService {
     constructor(protected emailService: EmailService,
                 protected companyRepositories: CompanyRepositories,
                 protected jwtService: JwtService,
-                protected deviceRepositories: DeviceRepositories) {}
+                protected deviceRepositories: DeviceRepositories) {
+    }
 
     async registration(nameCompany: string, login: string, email: string, password: string): Promise<CompanyAcountDBType | null> {
         const isValidCompany = await this.companyRepositories.findCompany(login)
-        //if (!isValidCompany) throw ApiErrors.BAD_REQUEST_400(`${login} or ${email} already in use!`)
         if (!isValidCompany) throw ApiErrors.BAD_REQUEST_400(`Company with this email or login is already registered `)
         const passwordHash = await bcrypt.hash(password, 10)
-        const company = await this.companyRepositories.registration(nameCompany, login, email, passwordHash)
+        const company: CompanyAcountDBType = await this.companyRepositories.registration(nameCompany, login, email, passwordHash)
         const sendEmail = await this.emailService.sendEmailConfirmation(company.accountData.email, company.emailConfirmation.confirmationCode)
         if (!sendEmail) throw ApiErrors.INTERNET_SERVER_ERROR(`I can't message Email`)
         return company
@@ -61,7 +61,18 @@ export class CompanyService {
         return token
     }
 
-    async refreshToken(payloadDto: PayloadDto) {
+    async _checkRefreshTokena(refreshToken: string) {
+        if (!refreshToken) throw ApiErrors.UNAUTHORIZED_401(`Did not come refreshToken`)
+        const payload = await this.jwtService.verifyToken(refreshToken)
+        const payloadDto = new PayloadDto(payload)
+        if (payloadDto.exp < new Date().toISOString()) throw ApiErrors.UNAUTHORIZED_401(`Expired date`)
+        const deviceUser = await this.deviceRepositories.findDeviceForValid(payloadDto)
+        if (!deviceUser) throw ApiErrors.UNAUTHORIZED_401(`Incorrect userId or deviceId or issuedAt`)
+        return payloadDto
+    }
+
+    async refreshToken(refreshToken: string) {
+        const payloadDto = await this._checkRefreshTokena(refreshToken)
         const newTokens = await this.jwtService.generateTokens(payloadDto)
         const payloadNew = await this.jwtService.verifyToken(newTokens.refreshToken)
         const mewPayloadDto = new PayloadDto(payloadNew)
@@ -108,6 +119,15 @@ export class CompanyService {
         await this._checkFoundCompany(company, recoveryCode)
         const passwordHash = await bcrypt.hash(newPassword, 10)
         return await this.companyRepositories.updateRecovery(company._id, passwordHash)
+    }
+
+    async logout(refreshToken: string): Promise<boolean> {
+        const payloadDto = await this._checkRefreshTokena(refreshToken)
+        const device = await this.deviceRepositories.findDeviceForDelete(payloadDto)
+        if (!device) throw ApiErrors.UNAUTHORIZED_401(`Incorrect userId or deviceId or issuedAt`)
+        const isDeleted = await this.deviceRepositories.deleteDevice(payloadDto)
+        if (!isDeleted) throw ApiErrors.UNAUTHORIZED_401(`Unauthorized`)
+        return true
     }
 }
 

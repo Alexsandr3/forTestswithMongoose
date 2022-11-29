@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import {ObjectId} from "mongodb";
+import {DeviceDBType} from "../../types/device-type";
 
-const deviceSchema = new mongoose.Schema({
+const deviceSchema = new mongoose.Schema<DeviceDBType>({
     _id: ObjectId,
     companyId: {type: String, required: true},
     ip: {type: String, required: true},

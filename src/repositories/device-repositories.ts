@@ -20,7 +20,7 @@ export class DeviceRepositories {
     }
 
     async findDeviceForValid(payloadDto: PayloadDto): Promise<DeviceDBType | null> {
-        return  DeviceModelClass
+        return DeviceModelClass
             .findOne({
                 $and: [
                     {companyId: payloadDto.companyId},
@@ -30,6 +30,7 @@ export class DeviceRepositories {
             })
 
     }
+
     async updateDateDevice(payload: PayloadDto, oldIat: string): Promise<boolean> {
         const result = await DeviceModelClass.updateOne({
             $and: [
@@ -46,5 +47,29 @@ export class DeviceRepositories {
         return result.modifiedCount === 1
     }
 
+    async findDeviceForDelete(payloadDto: PayloadDto): Promise<DeviceDBType | null> {
+        const result = await DeviceModelClass
+            .findOne({
+                $and: [
+                    {companyId: {$eq: payloadDto.companyId}},
+                    {deviceId: {$eq: payloadDto.deviceId}},
+                    {lastActiveDate: {$eq: payloadDto.iat}}
+                ]
+            })
+        if (!result) {
+            return null
+        } else {
+            return result
+        }
+    }
+    async deleteDevice(payloadDto: PayloadDto): Promise<boolean> {
+        const result = await DeviceModelClass.deleteOne({
+            $and: [
+                {companyId: {$eq: payloadDto.companyId}},
+                {deviceId: {$eq: payloadDto.deviceId}},
+            ]
+        })
+        return result.deletedCount === 1
+    }
 }
 
