@@ -11,7 +11,7 @@ config()
 
 
 const PORT = process.env.PORT || 5002
-const mongoUri = process.env.MONGO_URI2 || "mongodb://0.0.0.0:27017";
+const mongoUri = process.env.MONGO_URI || "mongodb://0.0.0.0:27017";
 
 export const app = express()
 const jsonBodyMiddleware = bodyParser.json()
