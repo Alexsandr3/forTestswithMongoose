@@ -2,10 +2,10 @@ import {DeviceDBType} from "../types/device-type";
 import {DeviceModelClass} from "../models/schemas/device-schema";
 import {ObjectId} from "mongodb";
 import {CompanyDto} from "../dtos/company-dto";
-import {PayloadDto} from "../dtos/payload-dto";
+import {PayloadDTO} from "../dtos/payload-dto";
 
 export class DeviceRepositories {
-    async createDevice(companyDto: CompanyDto, ipAddress: string, deviceName: string, payloadDto: PayloadDto): Promise<DeviceDBType> {
+    async createDevice(companyDto: CompanyDto, ipAddress: string, deviceName: string, payloadDto: PayloadDTO): Promise<DeviceDBType> {
 
         const newDevice = new DeviceDBType(
             new ObjectId(),
@@ -19,7 +19,7 @@ export class DeviceRepositories {
         return newDevice
     }
 
-    async findDeviceForValid(payloadDto: PayloadDto): Promise<DeviceDBType | null> {
+    async findDeviceForValid(payloadDto: PayloadDTO): Promise<DeviceDBType | null> {
         return DeviceModelClass
             .findOne({
                 $and: [
@@ -31,7 +31,7 @@ export class DeviceRepositories {
 
     }
 
-    async updateDateDevice(payload: PayloadDto, oldIat: string): Promise<boolean> {
+    async updateDateDevice(payload: PayloadDTO, oldIat: string): Promise<boolean> {
         const result = await DeviceModelClass.updateOne({
             $and: [
                 {companyId: {$eq: payload.companyId}},
@@ -47,7 +47,7 @@ export class DeviceRepositories {
         return result.modifiedCount === 1
     }
 
-    async findDeviceForDelete(payloadDto: PayloadDto): Promise<DeviceDBType | null> {
+    async findDeviceForDelete(payloadDto: PayloadDTO): Promise<DeviceDBType | null> {
         const result = await DeviceModelClass
             .findOne({
                 $and: [
@@ -62,7 +62,7 @@ export class DeviceRepositories {
             return result
         }
     }
-    async deleteDevice(payloadDto: PayloadDto): Promise<boolean> {
+    async deleteDevice(payloadDto: PayloadDTO): Promise<boolean> {
         const result = await DeviceModelClass.deleteOne({
             $and: [
                 {companyId: {$eq: payloadDto.companyId}},

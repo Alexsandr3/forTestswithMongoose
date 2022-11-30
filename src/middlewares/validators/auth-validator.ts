@@ -8,7 +8,7 @@ const companyNameValidation =
         .trim()
         .isLength({min: 1, max: 100})
 
-const loginValidation =
+export const loginValidation =
     body('login',
         `Login name must be a string, must not be empty length should be 3..50 symbols`)
         .isString()
@@ -23,7 +23,7 @@ export const emailValidation =
         .trim()
         .isEmail()
 
-const passwordValidation =
+export const passwordValidation =
     body('password',
         'password must be a string, must not be empty')
         .isString()

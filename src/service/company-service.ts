@@ -11,7 +11,7 @@ import {JwtService} from "./jwt-service";
 import {DeviceRepositories} from "../repositories/device-repositories";
 import {TokensType} from "../types/token-type";
 import {CompanyDto} from "../dtos/company-dto";
-import {PayloadDto} from "../dtos/payload-dto";
+import {PayloadDTO} from "../dtos/payload-dto";
 import add from "date-fns/add";
 import {randomUUID} from "crypto";
 
@@ -56,7 +56,7 @@ export class CompanyService {
         const companyDto = new CompanyDto(company)
         const token = await this.jwtService.generateTokens({...companyDto})
         const payload = await this.jwtService.verifyToken(token.refreshToken)
-        const payloadDto = new PayloadDto(payload)
+        const payloadDto = new PayloadDTO(payload)
         await this.deviceRepositories.createDevice(companyDto, ipAddress, deviceName, payloadDto)
         return token
     }
@@ -64,7 +64,8 @@ export class CompanyService {
     async _checkRefreshTokena(refreshToken: string) {
         if (!refreshToken) throw ApiErrors.UNAUTHORIZED_401(`Did not come refreshToken`)
         const payload = await this.jwtService.verifyToken(refreshToken)
-        const payloadDto = new PayloadDto(payload)
+        if (!payload) throw ApiErrors.UNAUTHORIZED_401(`Company with id not authorized`)
+        const payloadDto = new PayloadDTO(payload)
         if (payloadDto.exp < new Date().toISOString()) throw ApiErrors.UNAUTHORIZED_401(`Expired date`)
         const deviceUser = await this.deviceRepositories.findDeviceForValid(payloadDto)
         if (!deviceUser) throw ApiErrors.UNAUTHORIZED_401(`Incorrect userId or deviceId or issuedAt`)
@@ -75,7 +76,7 @@ export class CompanyService {
         const payloadDto = await this._checkRefreshTokena(refreshToken)
         const newTokens = await this.jwtService.generateTokens(payloadDto)
         const payloadNew = await this.jwtService.verifyToken(newTokens.refreshToken)
-        const mewPayloadDto = new PayloadDto(payloadNew)
+        const mewPayloadDto = new PayloadDTO(payloadNew)
         const updateDevice = await this.deviceRepositories.updateDateDevice(mewPayloadDto, payloadDto.iat)
         if (!updateDevice) throw ApiErrors.UNAUTHORIZED_401(`Update failed!`)
         return newTokens

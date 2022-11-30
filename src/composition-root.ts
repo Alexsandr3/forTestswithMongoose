@@ -11,6 +11,7 @@ import {AdminController} from "./controllers/admin-controller";
 import {AdminRepositories} from "./repositories/admin-repositories";
 import {AdminService} from "./service/admin-service";
 import {AdminQueryRepositories} from "./repositories/admin-query-repositories";
+import {MiddlewareService} from "./middlewares/authAdminMiddleware";
 
 
 const companyRepositories = new CompanyRepositories()
@@ -25,7 +26,9 @@ const jwtService = new JwtService()
 const emailService = new EmailService(emailAdapter)
 const companyService = new CompanyService(emailService, companyRepositories, jwtService, deviceRepositories)
 const deviceService = new DeviceService()
-const adminService = new AdminService(adminRepositories)
+const adminService = new AdminService(adminRepositories, jwtService)
+
+export const middlewareService = new MiddlewareService(jwtService, adminRepositories)
 
 export const companyController = new CompanyController(companyService, jwtService, deviceRepositories, companyQueryRepositories)
-export const adminController = new AdminController(adminQueryRepositories, adminService)
+export const adminController = new AdminController(adminQueryRepositories, adminService, jwtService)

@@ -24,11 +24,9 @@ export class EmailService {
     <hr/>
     <br/>
     <div>
-        <img style="width: 600px" src="https://img.freepik.com/free-vector/open-locker_53876-25497.jpg?w=1060&t=st=1669730284~exp=1669730884~hmac=8b2a2001b2dff52867a04116562094e75f66fe64a6f2a092daf24b86d2f0d974">
+        <img style="width: 300px" src="https://img.freepik.com/free-vector/open-locker_53876-25497.jpg?w=1060&t=st=1669730284~exp=1669730884~hmac=8b2a2001b2dff52867a04116562094e75f66fe64a6f2a092daf24b86d2f0d974">
     </div>
 </div>`
-
-
         return await this.emailAdapter.sendEmail(email, subject, message)
     }
 
@@ -47,6 +45,7 @@ export class EmailService {
             <br/>
             Please follow the link below to complete your registration:
         </p>
+        <input type="button" style="background-color: #fdab5d; color: #fff; border: 0px; padding: 10px 20px; border-radius: 8px; font-size: 24px; margin: 15px" onclick="location.href=${link};" value="Confirm registration">
         <a href="" style="text-align: center">${link}</a>
     </div>
     <br/>
@@ -60,10 +59,6 @@ export class EmailService {
         return await this.emailAdapter.sendEmail(email, subject, message)
     }
 }
-
-
-
-
 
 
 
